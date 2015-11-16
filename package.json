@@ -1,0 +1,33 @@
+{
+  "name": "leaflet-buffer",
+  "version": "0.0.1",
+  "description": "A buffer control for Leaflet",
+  "main": "src/Leaflet.buffer.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "jshint index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rbonillajr/Leaflet.buffer.git"
+  },
+  "keywords": [
+    "leaflet",
+    "maps",
+    "fullscreen",
+    "client"
+  ],
+  "devDependencies": {
+    "uglify-js": "2.4.3",
+    "jshint": "2.3.0"
+  },
+  "author": "Rene Bonilla",
+  "license": "MIT",
+  "gitHead": "a930a8037843bc795cd7d35921c33a308c2d4382",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "turf": "^2.0.2"
+  }
+}

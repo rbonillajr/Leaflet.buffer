@@ -1,0 +1,16 @@
+{
+  "name": "Leaflet.buffer",
+  "repo": "mapbox/Leaflet.buffer",
+  "description": "a buffer control for Leaflet",
+  "version": "0.0.0",
+  "keywords": [],
+  "dependencies": {},
+  "development": {},
+  "license": "MIT",
+  "scripts": [
+    "src/Leaflet.buffer.js"
+  ],
+  "styles": [
+    "dist/leaflet.buffer.css"
+  ]
+}
