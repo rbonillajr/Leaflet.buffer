@@ -18,7 +18,7 @@ L.Control.Buffer = L.Control.extend({
 
         //L.DomEvent.on(this._link, 'click', this._click, this);
         
-        var _origClick = map.buffer._onClick;
+        /* var _origClick = map.buffer._onClick;
         map.buffer._onClick = function(e){
           _origClick.call(map.buffer, {
                 clientX: e.clientX,
@@ -26,7 +26,7 @@ L.Control.Buffer = L.Control.extend({
                 which: 1,
                 shiftKey: true
             });  
-        };
+        };*/
         
         map.on('click', function(){
             alert('clicked on map');
