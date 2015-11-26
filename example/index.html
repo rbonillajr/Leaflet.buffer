@@ -23,6 +23,10 @@
 
         var test = new L.Control.Buffer();
         map.addControl(test);
+        
+        map.on('createBuffer', function (e) {
+                   alert(e.latlng.lat);
+                });
     </script>
 </body>
 </html>

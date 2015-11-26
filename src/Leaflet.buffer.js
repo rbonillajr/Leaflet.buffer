@@ -28,20 +28,18 @@ L.Control.Buffer = L.Control.extend({
             });  
         };*/
         
-        map.on('click', function(){
-            alert('clicked on map');
-        }, this);
+        map.on('click', this._onCreateBuffer, this);
         
-        if (!this.options.modal) {
-            map.on('bufferend', this.deactivate, this);
-        }
+        /* if (!this.options.modal) {
+            map.on('bufferingend', this.deactivate, this);
+        } */
         
         L.DomEvent
             .on(this._container, 'dblclick', L.DomEvent.stop)
             .on(this._container, 'click', L.DomEvent.stop)
             .on(this._container, 'click', function(){
                 this._active = !this._active;
-                if (this._active && map.getZoom() != map.getMaxZoom()){
+                if (this._active){
                     this.activate();
                 }
                 else {
@@ -65,9 +63,8 @@ L.Control.Buffer = L.Control.extend({
         this._active = false;
         
     },
-    _click: function (e) {
-        L.DomEvent.stopPropagation(e);
-        L.DomEvent.preventDefault(e);    
+    _onCreateBuffer: function(e){
+        this._map.onCreateBuffer(e.latlng);
     },
     
     addTo: function (map) {
@@ -76,7 +73,23 @@ L.Control.Buffer = L.Control.extend({
 		}
     
 });
+L.Map.include({
+    onCreateBuffer: function(latlng){
+        this.fire('createBuffer', { latlng: latlng });        
+    }
+});
 
+L.Map.addInitHook(function(){
+    var onCreateBuffer = L.bind(this._onCreateBuffer, this);
+
+        this.whenReady(function () {
+            L.DomEvent.on(document, 'createBuffer', onCreateBuffer);
+        });
+
+        this.on('unload', function () {
+            L.DomEvent.off(document, 'createBuffer', onCreateBuffer);
+        });
+});
 
 L.control.buffer = function (options) {
     return new L.Control.Buffer(options);
