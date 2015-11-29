@@ -5,15 +5,16 @@
     <title>Leaflet ZoomBox Control</title>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="../src/Leaflet.buffer.css" />
+    <link rel="stylesheet" href="../dist/Leaflet.buffer.css" />
 </head>
 <body>
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-    <script src="../src/Leaflet.buffer.js"></script>
+    <script src="http://api.tiles.mapbox.com/mapbox.js/plugins/turf/v2.0.0/turf.min.js"></script>
+    <script src="../dist/Leaflet.buffer.min.js"></script>
     <div id="map" style="position: absolute; top: 0; left:0; bottom:0; right: 0;"></div>
 
     <script>
-        var map = L.map('map').setView([44.07, -118.78], 6);
+        var map = L.map('map').setView([8.488481600020107, -79.89260990593574], 8);
         L.tileLayer('http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png', {
             attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
             subdomains: 'abcd',
@@ -25,7 +26,7 @@
         map.addControl(test);
         
         map.on('createBuffer', function (e) {
-                   alert(e.latlng.lat);
+                   console.log(e.buffered);
                 });
     </script>
 </body>

@@ -1,7 +1,9 @@
 L.Control.Buffer = L.Control.extend({
     options: {
+        unit: 'kilometers',
+        textRadio: 'Ingrese el tamaño del Radio',
         position: 'topleft',
-        modal: false
+        toggle: false
     },
 
     onAdd: function (map) {
@@ -11,29 +13,9 @@ L.Control.Buffer = L.Control.extend({
         this._container.title = "Buffer to specific area";
         this._link = L.DomUtil.create('a', 'leaflet-control-buffer-button leaflet-bar-part', this._container);
         this._link.href = '#';
-
-        
-        // this._map.on('bufferchange', this._toggleTitle, this);
-        // this._toggleTitle();
-
-        //L.DomEvent.on(this._link, 'click', this._click, this);
-        
-        var _origClick = map.buffer._onClick;
-        map.buffer._onClick = function(e){
-          _origClick.call(map.buffer, {
-                clientX: e.clientX,
-                clientY: e.clientY,
-                which: 1,
-                shiftKey: true
-            });  
-        };
-        
-        map.on('click', function(){
-            alert('clicked on map');
-        }, this);
-        
-        if (!this.options.modal) {
-            map.on('bufferend', this.deactivate, this);
+                        
+        if (!this.options.toggle) {
+            map.on('createBuffer', this.deactivate, this);
         }
         
         L.DomEvent
@@ -41,7 +23,7 @@ L.Control.Buffer = L.Control.extend({
             .on(this._container, 'click', L.DomEvent.stop)
             .on(this._container, 'click', function(){
                 this._active = !this._active;
-                if (this._active && map.getZoom() != map.getMaxZoom()){
+                if (this._active){
                     this.activate();
                 }
                 else {
@@ -52,22 +34,28 @@ L.Control.Buffer = L.Control.extend({
         return this._container;
     },    
     activate: function() {
+        map.on('click', this._onCreateBuffer, this);
         L.DomUtil.addClass(this._container, 'active');
-         this._map.dragging.disable();
-        // this._map.buffer.addHooks();
+        this._map.dragging.disable();        
         L.DomUtil.addClass(this._map.getContainer(), 'leaflet-control-buffer-crosshair');
     },
     deactivate: function() {
+        map.off('click', this._onCreateBuffer, this);
         L.DomUtil.removeClass(this._container, 'active');
-         this._map.dragging.enable();
-        // this._map.buffer.removeHooks();
+        this._map.dragging.enable();        
         L.DomUtil.removeClass(this._map.getContainer(), 'leaflet-control-buffer-crosshair');
         this._active = false;
         
     },
-    _click: function (e) {
-        L.DomEvent.stopPropagation(e);
-        L.DomEvent.preventDefault(e);    
+    _onCreateBuffer: function(e){
+        var marker = L.marker(e.latlng, {});
+        var pointMarker = marker.toGeoJSON();
+        var radio = prompt(this.options.textRadio);
+        var buffered = turf.buffer(pointMarker, radio, this.options.unit);
+        
+        L.geoJson(buffered).addTo(map);
+        
+        this._map.onCreateBuffer(buffered);        
     },
     
     addTo: function (map) {
@@ -76,7 +64,24 @@ L.Control.Buffer = L.Control.extend({
 		}
     
 });
+L.Map.include({
+    onCreateBuffer: function(buffered){
+                        
+        this.fire('createBuffer', { buffered: buffered });        
+    }
+});
 
+L.Map.addInitHook(function(){
+    var onCreateBuffer = L.bind(this._onCreateBuffer, this);
+
+        this.whenReady(function () {
+            L.DomEvent.on(document, 'createBuffer', onCreateBuffer);
+        });
+
+        this.on('unload', function () {
+            L.DomEvent.off(document, 'createBuffer', onCreateBuffer);
+        });
+});
 
 L.control.buffer = function (options) {
     return new L.Control.Buffer(options);
