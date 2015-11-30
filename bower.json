@@ -1,0 +1,24 @@
+{
+  "name": "leaflet-buffer",
+  "description": "A buffer control for Leaflet",
+  "main": "src/Leaflet.buffer.js",
+  "authors": [
+    "Rene Bonilla"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "leaflet",
+    "maps",
+    "fullscreen",
+    "client"
+  ],
+  "homepage": "https://github.com/rbonillajr/Leaflet.buffer",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

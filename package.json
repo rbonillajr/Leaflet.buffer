@@ -27,7 +27,5 @@
   "license": "MIT",
   "gitHead": "a930a8037843bc795cd7d35921c33a308c2d4382",
   "readmeFilename": "README.md",
-  "dependencies": {
-    "turf": "^2.0.2"
-  }
+  "dependencies": {}
 }
