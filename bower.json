@@ -1,7 +1,7 @@
 {
   "name": "leaflet-buffer",
   "description": "A buffer control for Leaflet",
-  "main": "src/Leaflet.buffer.js",
+  "main": ["dist/Leaflet.buffer.min.js","dist/Leaflet.buffer.css"],
   "authors": [
     "Rene Bonilla"
   ],
