@@ -54,7 +54,8 @@ L.Control.Buffer = L.Control.extend({
         var radio = prompt(this.options.textRadio);
         var buffered = turf.buffer(pointMarker, radio, this.options.unit);
         
-        L.geoJson(buffered).addTo(map);
+        var feature = L.geoJson(buffered);
+        feature.addTo(map);
         
         this._map.onCreateBuffer(buffered);        
     },
