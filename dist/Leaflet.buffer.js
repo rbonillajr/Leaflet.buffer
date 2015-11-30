@@ -24,24 +24,24 @@ L.Control.Buffer = L.Control.extend({
             .on(this._container, 'click', L.DomEvent.stop)
             .on(this._container, 'click', function(){
                 this._active = !this._active;
-                if (this._active){
-                    map.on('click', this._onCreateBuffer, this);
+                if (this._active){                    
                     this.activate();
                 }
-                else {
-                    map.off('click', this._onCreateBuffer, this);
+                else {                    
                     this.deactivate();
                 }
             }, this);
 
         return this._container;
     },    
-    activate: function() {        
+    activate: function() {     
+        this._map.on('click', this._onCreateBuffer, this);
         L.DomUtil.addClass(this._container, 'active');
         this._map.dragging.disable();        
         L.DomUtil.addClass(this._map.getContainer(), 'leaflet-control-buffer-crosshair');
     },
-    deactivate: function() {        
+    deactivate: function() {    
+        this._map.off('click', this._onCreateBuffer, this);
         L.DomUtil.removeClass(this._container, 'active');
         this._map.dragging.enable();        
         L.DomUtil.removeClass(this._map.getContainer(), 'leaflet-control-buffer-crosshair');
@@ -54,8 +54,11 @@ L.Control.Buffer = L.Control.extend({
         var radio = prompt(this.options.textRadio);
         var buffered = turf.buffer(pointMarker, radio, this.options.unit);
         
-        var feature = L.geoJson(buffered);
-        feature.addTo(map);
+        if (typeof this.feature != 'undefined') {
+            this._map.removeLayer(this.feature);
+        }
+        this.feature = L.geoJson(buffered);
+        this.feature.addTo(this._map);
         
         this._map.onCreateBuffer(buffered);        
     },
