@@ -1,4 +1,5 @@
 L.Control.Buffer = L.Control.extend({
+    includes: L.Mixin.Events,
     options: {
         unit: 'kilometers',
         textRadio: 'Ingrese el tamaño del Radio',
