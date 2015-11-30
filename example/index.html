@@ -3,24 +3,46 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Leaflet ZoomBox Control</title>
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <!--<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />-->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="../dist/Leaflet.buffer.css" />
 </head>
 <body>
-    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <!--<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>-->
+    <script src='https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.css' rel='stylesheet' />
     <script src="http://api.tiles.mapbox.com/mapbox.js/plugins/turf/v2.0.0/turf.min.js"></script>
     <script src="../dist/Leaflet.buffer.min.js"></script>
     <div id="map" style="position: absolute; top: 0; left:0; bottom:0; right: 0;"></div>
 
     <script>
+        L.mapbox.accessToken = 'pk.eyJ1IjoicmJvbmlsbGFqciIsImEiOiI5M2FhYjRjNjFjNTE2YTU2NjUxNzJiNmQ3Mjc3OWFjMSJ9.dj1BlB2pdE2TqjQT42kl8A';
+    var map = L.mapbox.map('map', null).setView([8.488481600020107, -79.89260990593574], 8);
+    var layers = {
+        Grayscale: L.mapbox.tileLayer('rbonillajr.ni99f1ka'),
+        Streets: L.mapbox.tileLayer('mapbox.streets'),
+        Dark: L.mapbox.tileLayer('rbonillajr.ni9k00pi'),
+        satellite: L.mapbox.tileLayer('rbonillajr.ni9k25fo')
+    };
+    var overlays = {
+                    Provincia: L.mapbox.tileLayer('rbonillajr.Provincias'),
+                    Comercios: L.mapbox.tileLayer('rbonillajr.Comercios')
+                };
+    layers.Streets.addTo(map);
+    L.control.layers(layers, overlays).addTo(map);
+    var featureGroup = L.featureGroup().addTo(map);
+        
+        
+        
+        
+        /*
         var map = L.map('map').setView([8.488481600020107, -79.89260990593574], 8);
         L.tileLayer('http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png', {
             attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
             subdomains: 'abcd',
             maxZoom: 10,
             minZoom: 2
-        }).addTo(map);
+        }).addTo(map);*/
 
         var test = new L.Control.Buffer();
         map.addControl(test);
