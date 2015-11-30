@@ -24,23 +24,23 @@ L.Control.Buffer = L.Control.extend({
             .on(this._container, 'click', function(){
                 this._active = !this._active;
                 if (this._active){
+                    map.on('click', this._onCreateBuffer, this);
                     this.activate();
                 }
                 else {
+                    map.off('click', this._onCreateBuffer, this);
                     this.deactivate();
                 }
             }, this);
 
         return this._container;
     },    
-    activate: function() {
-        map.on('click', this._onCreateBuffer, this);
+    activate: function() {        
         L.DomUtil.addClass(this._container, 'active');
         this._map.dragging.disable();        
         L.DomUtil.addClass(this._map.getContainer(), 'leaflet-control-buffer-crosshair');
     },
-    deactivate: function() {
-        map.off('click', this._onCreateBuffer, this);
+    deactivate: function() {        
         L.DomUtil.removeClass(this._container, 'active');
         this._map.dragging.enable();        
         L.DomUtil.removeClass(this._map.getContainer(), 'leaflet-control-buffer-crosshair');
